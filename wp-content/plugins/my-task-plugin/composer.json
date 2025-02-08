@@ -1,0 +1,9 @@
+{
+    "name": "vendor/my-task-plugin",
+    "autoload": {
+        "psr-4": {
+            "MyTaskPlugin\\": "src/"
+        }
+    },
+    "require": {}
+}
