@@ -10,6 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 require_once __DIR__ . '/vendor/autoload.php';
  
-use MyTaskPlugin\MyTask;
+use MyTask\TaskCore;
  
-new MyTask(); // Instantiate to trigger the message display
+new TaskCore(); // Instantiate to trigger the message display
