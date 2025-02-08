@@ -1,0 +1,13 @@
+{
+    "name": "vendor/mytheme",
+    "description": "A custom WordPress theme.",
+    "type": "wordpress-theme",
+    "require": {
+      "php": "^7.4|^8.0"
+    },
+    "autoload": {
+      "psr-4": {
+        "MyTheme\\": "src/"
+      }
+    }
+}
