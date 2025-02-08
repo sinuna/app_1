@@ -3,6 +3,7 @@
 namespace MyTask;
 
 use MyTask\TaskPostType;
+use MyTask\TaxonomyHandler;
 
 class TaskCore {
     public function __construct() {
@@ -12,5 +13,6 @@ class TaskCore {
     private function init() {
         // Instantiate and initialize components
         new TaskPostType();
+        new TaxonomyHandler();
     }
 }
