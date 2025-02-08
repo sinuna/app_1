@@ -2,12 +2,15 @@
 
 namespace MyTask;
 
+use MyTask\TaskPostType;
+
 class TaskCore {
     public function __construct() {
-        add_action('wp_footer', array( $this, 'activate'));
+        $this->init(); // Initialize all plugin components
     }
 
-    public function activate() {
-        echo '<p style="text-align:center;font-weight:bold;">Composer is installed and Plugin is activated!</p>';
+    private function init() {
+        // Instantiate and initialize components
+        new TaskPostType();
     }
 }
