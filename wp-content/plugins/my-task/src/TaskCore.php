@@ -1,8 +1,8 @@
 <?php
 
-namespace MyTaskPlugin;
+namespace MyTask;
 
-class MyTask {
+class TaskCore {
     public function __construct() {
         add_action('wp_footer', array( $this, 'activate'));
     }
