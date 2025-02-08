@@ -1,9 +1,13 @@
 {
     "name": "vendor/my-task-plugin",
+    "description": "A custom WordPress plugin.",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "MyTaskPlugin\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+      "php": "^7.4|^8.0"
+    }
 }
