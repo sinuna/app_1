@@ -98,13 +98,14 @@ get_header();
                         'orderby' => 'term_id',
                         'order' => 'ASC'
                     ));
-                    ?>
+                    
+                    foreach( $taskStatusTerms as $term ) : ?>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header bg-primary text-white text-center">
-                            <?php foreach( $taskStatusTerms as $term ) : ?>
+                            
                                 <h3><?php echo esc_html($term->name); ?></h3>
-                            <?php endforeach; ?>
+                            
                             </div>
                             <div class="card-body">
                                 <div class="card mb-3">
@@ -118,7 +119,7 @@ get_header();
                             </div>
                         </div>
                     </div>
-                    
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
