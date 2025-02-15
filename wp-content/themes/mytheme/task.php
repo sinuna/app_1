@@ -91,10 +91,20 @@ get_header();
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="row" id="server-content">
+                    <?php
+                    $taskStatusTerms = get_terms(array(
+                        'taxonomy' => 'task_status',
+                        'hide_status' => false,
+                        'orderby' => 'term_id',
+                        'order' => 'ASC'
+                    ));
+                    ?>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header bg-primary text-white text-center">
-                                <h3>To do</h3>
+                            <?php foreach( $taskStatusTerms as $term ) : ?>
+                                <h3><?php echo esc_html($term->name); ?></h3>
+                            <?php endforeach; ?>
                             </div>
                             <div class="card-body">
                                 <div class="card mb-3">
@@ -108,40 +118,7 @@ get_header();
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h3>Progress</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Attent event <span class="text-muted"></span></h4>
-                                        <p class="text-muted mb-0"> Priority: Low </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-01-30 </p>
-                                        <p class="text-muted mb-0"> Category: Work </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h3>Done</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Swimming Class <span class="text-muted"></span></h4>
-                                        <p class="text-muted mb-0"> Priority: Medium </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-01-16 </p>
-                                        <p class="text-muted mb-0"> Category: Personal </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
