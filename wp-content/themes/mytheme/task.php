@@ -103,6 +103,13 @@ get_header();
                     $args = array(
                         'post_type' => 'task',
                         'posts_per_page' => -1,
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'task_status',
+                                'field' => 'term_id',
+                                'terms' => $term->term_id
+                            )
+                        ),
                         'order_by' => array(
                             'date' => 'ASC'
                         )
