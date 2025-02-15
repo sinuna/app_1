@@ -92,17 +92,17 @@ get_header();
             <div class="col-lg-9 col-md-12">
                 <div class="row" id="server-content">
                     <?php
-                    $taskStatusTerms = get_terms(array(
+                    $taskStatusTerms = get_terms(array( // Get all terms for task_status taxonomy
                         'taxonomy' => 'task_status',
-                        'hide_status' => false,
+                        'hide_empty' => false, 
                         'orderby' => 'term_id',
                         'order' => 'ASC'
                     ));
                     
                     foreach( $taskStatusTerms as $term ) : 
-                    $args = array(
+                    $args = array( // Get all tasks for the current term
                         'post_type' => 'task',
-                        'posts_per_page' => -1,
+                        'posts_per_page' => -1, // Retrieve all tasks
                         'tax_query' => array(
                             array(
                                 'taxonomy' => 'task_status',
