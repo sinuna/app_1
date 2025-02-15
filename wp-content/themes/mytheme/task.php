@@ -99,23 +99,34 @@ get_header();
                         'order' => 'ASC'
                     ));
                     
-                    foreach( $taskStatusTerms as $term ) : ?>
+                    foreach( $taskStatusTerms as $term ) : 
+                    $args = array(
+                        'post_type' => 'task',
+                        'posts_per_page' => -1,
+                        'order_by' => array(
+                            'date' => 'ASC'
+                        )
+                    );
+                    $tasks = get_posts($args);
+                    ?>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header bg-primary text-white text-center">
-                            
                                 <h3><?php echo esc_html($term->name); ?></h3>
-                            
                             </div>
                             <div class="card-body">
+                                <?php if ( !empty($tasks) ) :?>
+                                <?php foreach( $tasks as $task ) : ?>
                                 <div class="card mb-3">
                                     <div class="card-body">
-                                        <h4 class="card-title">Shopping <span class="text-muted">(highlight)</span></h4>
+                                        <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted">(highlight)</span></h4>
                                         <p class="text-muted mb-0"> Priority: Low </p>
                                         <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
                                         <p class="text-muted mb-0"> Category: Personal </p>
                                     </div>
                                 </div>
+                                <?php endforeach;?>
+                                <?php endif;?>
                             </div>
                         </div>
                     </div>
