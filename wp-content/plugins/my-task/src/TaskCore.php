@@ -4,6 +4,7 @@ namespace MyTask;
 
 use MyTask\TaskPostType;
 use MyTask\TaxonomyHandler;
+use MyTask\MetaBoxHandler;
 
 class TaskCore {
     public function __construct() {
@@ -14,5 +15,6 @@ class TaskCore {
         // Instantiate and initialize components
         new TaskPostType();
         new TaxonomyHandler();
+        new MetaBoxHandler();
     }
 }
