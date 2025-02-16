@@ -91,57 +91,97 @@ get_header();
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="row" id="server-content">
+                    <?php
+                    $taskStatusTerms = get_terms(array( // Get all terms for task_status taxonomy
+                        'taxonomy' => 'task_status',
+                        'hide_empty' => false, 
+                        'orderby' => 'term_id',
+                        'order' => 'ASC'
+                    ));
+                    
+                    foreach( $taskStatusTerms as $term ) : 
+                    $args = array( // Get all tasks for the current term
+                        'post_type' => 'task',
+                        'posts_per_page' => -1, // Retrieve all tasks
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'task_status',
+                                'field' => 'term_id',
+                                'terms' => $term->term_id
+                            )
+                        ),
+                        'meta_query'     => array(
+                        'relation' => 'OR',
+                        array(
+                            'key'     => '_deadline',
+                            'compare' => 'EXISTS',
+                        ),
+                        array(
+                            'key'     => '_deadline',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                    ),
+                    'orderby'        => array(
+                        'meta_value_num' => 'DESC', // Sort by highlight first
+                        'meta_value'     => 'ASC',  // Then by deadline (earliest first)
+                        'date'           => 'ASC',  // Then by post date
+                    ),
+                    'meta_key' => '_is_highlight',
+                    );
+                    $tasks = get_posts($args);
+                    ?>
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-header bg-primary text-white text-center">
-                                <h3>To do</h3>
+                                <h3><?php echo esc_html($term->name); ?></h3>
                             </div>
                             <div class="card-body">
+                                <?php if ( !empty($tasks) ) : ?>
+                                <?php foreach( $tasks as $task ) :
+                                    $is_highlight = get_post_meta($task->ID, '_is_highlight', true) === '1' ? 'highlight' : '';
+                                    // Get the task status term
+                                    $task_status = wp_get_post_terms($task->ID, 'task_status');
+                                    $task_status_slug = !empty( $task_status ) ? $task_status[0]->slug : '';
+                
+                                    // Conditionally add task status classes
+                                    $status_class = match($task_status_slug) {
+                                        'to-do' => 'task-todo',
+                                        'progress' => 'task-progress',
+                                        'done' => 'task-done',
+                                        default => '',
+                                    };
+
+                                    // Combine the classes
+                                    $myclasses = trim("$is_highlight $status_class"); 
+                                ?>
                                 <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Shopping <span class="text-muted">(highlight)</span></h4>
-                                        <p class="text-muted mb-0"> Priority: Low </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
-                                        <p class="text-muted mb-0"> Category: Personal </p>
+                                    <div class="card-body <?php echo esc_attr($myclasses); ?>">
+                                        <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted"><?php echo $is_highlight ? '(highlight)' : ''; ?></span></h4>
+                                        <p class="text-muted mb-0">
+                                            <?php $priorities = wp_get_post_terms($task->ID, 'task_priority', ['fields' => 'names']);                                        
+                                            echo 'Priority: ' . (!empty($priorities) ? esc_html(implode(', ', $priorities)) : 'No Priority');  
+                                            ?>
+                                        </p>
+                                        <p class="text-muted mb-0">
+                                            <?php echo 'Deadline: ' . (esc_html(get_post_meta($task->ID, '_deadline', true)) ?: 'No deadline'); ?>
+                                        </p>
+                                        <p class="text-muted mb-0">
+                                            <?php $categories = wp_get_post_terms($task->ID, 'task_category', ['fields' => 'names']);                                        
+                                            echo 'Category: ' . (!empty($categories) ? esc_html(implode(', ', $categories)) : 'No Category');  
+                                            ?>
+                                        </p>
                                     </div>
                                 </div>
+                                <?php endforeach;?>
+                                <?php else : ?>
+                                    <div class="text-center text-muted">
+                                        No tasks found for <?php echo esc_html($term->name); ?>.
+                                    </div>
+                                <?php endif;?>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h3>Progress</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Attent event <span class="text-muted"></span></h4>
-                                        <p class="text-muted mb-0"> Priority: Low </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-01-30 </p>
-                                        <p class="text-muted mb-0"> Category: Work </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h3>Done</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Swimming Class <span class="text-muted"></span></h4>
-                                        <p class="text-muted mb-0"> Priority: Medium </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-01-16 </p>
-                                        <p class="text-muted mb-0"> Category: Personal </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
