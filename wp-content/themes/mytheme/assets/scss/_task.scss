@@ -1,0 +1,58 @@
+#task-app {
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    h4 {
+        font-size: 1.25rem;
+    }
+    
+    h5 {
+        font-size: 1.125rem;
+    }
+    
+    h6 {
+        font-size: 1rem;
+    }
+    
+    span {
+        font-size: 0.7rem;
+    }
+    
+    .task-todo,
+    .task-progress,
+    .task-done {
+        padding: 20px;
+    }
+    
+    .highlight,
+    .highlight.mytodo,
+    .highlight.myprogress,
+    .highlight.mydone {
+        background-color: var(--bg-light-blue);
+        border-left: 6px solid var(--blue-color);
+    }
+    
+    .task-todo {
+        background-color: var(--bg-light-pink);
+        border-left: 6px solid var(--red-color);
+    }
+    
+    .task-progress {
+        background-color: var(--bg-light-yellow);
+        border-left: 6px solid var(--yellow-color);
+    }
+    
+    .task-done {
+        background-color: var(--bg-light-green);
+        border-left: 6px solid var(--green-color);
+    }
+}

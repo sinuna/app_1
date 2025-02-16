@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --white-color: #FFFFFF;
+  --black-color: #000000;
+  --red-color: #f44336;
+  --blue-color: #2196F3;
+  --yellow-color: #ffeb3b;
+  --green-color: #04AA6D;
+  --gray-color: gray;
+  --bg-light-green: #ddffdd;
+  --bg-light-yellow: #ffffcc;
+  --bg-light-pink: #ffdddd;
+  --bg-light-blue: #e7f3fe;
+}
+
+#task-app h1 {
+  font-size: 2rem;
+}
+#task-app h2 {
+  font-size: 1.75rem;
+}
+#task-app h3 {
+  font-size: 1.5rem;
+}
+#task-app h4 {
+  font-size: 1.25rem;
+}
+#task-app h5 {
+  font-size: 1.125rem;
+}
+#task-app h6 {
+  font-size: 1rem;
+}
+#task-app span {
+  font-size: 0.7rem;
+}
+#task-app .task-todo,
+#task-app .task-progress,
+#task-app .task-done {
+  padding: 20px;
+}
+#task-app .highlight,
+#task-app .highlight.mytodo,
+#task-app .highlight.myprogress,
+#task-app .highlight.mydone {
+  background-color: var(--bg-light-blue);
+  border-left: 6px solid var(--blue-color);
+}
+#task-app .task-todo {
+  background-color: var(--bg-light-pink);
+  border-left: 6px solid var(--red-color);
+}
+#task-app .task-progress {
+  background-color: var(--bg-light-yellow);
+  border-left: 6px solid var(--yellow-color);
+}
+#task-app .task-done {
+  background-color: var(--bg-light-green);
+  border-left: 6px solid var(--green-color);
+}/*# sourceMappingURL=style.css.map */
