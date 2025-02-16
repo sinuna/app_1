@@ -127,7 +127,11 @@ get_header();
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted">(highlight)</span></h4>
-                                        <p class="text-muted mb-0"> Priority: Low </p>
+                                        <p class="text-muted mb-0">
+                                            <?php $priorities = wp_get_post_terms($task->ID, 'task_priority', ['fields' => 'names']);                                        
+                                            echo 'Priority: ' . (!empty($priorities) ? esc_html(implode(', ', $priorities)) : 'No Priority');  
+                                            ?>
+                                        </p>
                                         <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
                                         <p class="text-muted mb-0"> Category: Personal </p>
                                     </div>
