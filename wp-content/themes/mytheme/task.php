@@ -5,7 +5,7 @@ Template Name: Task Page
 
 get_header();
 ?>
-<main id="task-app" role="main" data-v-app="">
+<main id="" role="main" data-v-app="">
     <div class="container my-4">
         <div class="row">
             <div class="col-lg-3 col-md-12">
@@ -89,8 +89,14 @@ get_header();
                     </form>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-12">
-                <div class="row" id="server-content">
+            <div class="col-lg-9 col-md-12" id="task-app">
+                <!-- Client Content -->
+                <div class="row" id="client-content" v-if="isClient">
+                    Client
+                </div>
+
+                <!-- Server Content -->
+                <div class="row" id="server-content" v-else>
                     <?php
                     $taskStatusTerms = get_terms(array( // Get all terms for task_status taxonomy
                         'taxonomy' => 'task_status',
