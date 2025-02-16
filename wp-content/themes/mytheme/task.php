@@ -173,6 +173,10 @@ get_header();
                                     </div>
                                 </div>
                                 <?php endforeach;?>
+                                <?php else : ?>
+                                    <div class="text-center text-muted">
+                                        No tasks found for <?php echo esc_html($term->name); ?>.
+                                    </div>
                                 <?php endif;?>
                             </div>
                         </div>
