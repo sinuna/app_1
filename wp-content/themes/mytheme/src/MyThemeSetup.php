@@ -27,5 +27,9 @@ class MyThemeSetup {
         wp_enqueue_script('bootstrap-script', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js', array('jquery'), '1.0', true);
         wp_enqueue_script('vue-script', 'https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.13/vue.global.js', array('jquery'), '1.0', true);
         wp_enqueue_script('mytheme-script', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), '1.0', true);
+
+        wp_localize_script('mytheme-script', 'ajax_object', array(
+            'rest_url' => esc_url(rest_url()),
+        ));
     }
 }

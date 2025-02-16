@@ -90,20 +90,27 @@ get_header();
                 </div>
             </div>
             <div class="col-lg-9 col-md-12" id="task-app">
-                <!-- Client Content -->
+                
+                <!-- Client Content Template -->
                 <div class="row" id="client-content" v-if="isClient">
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h3>To do</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h4 class="card-title">Shopping <span class="text-muted">(highlight)</span></h4>
-                                        <p class="text-muted mb-0"> Priority: Low </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
-                                        <p class="text-muted mb-0"> Category: Personal </p>
+                    <div v-if="allTaxonomies.length > 0" v-for="taxonomy in allTaxonomies" :key="taxonomy.name">
+                        <div v-if="taxonomy.name === 'task_status'">
+                            <div class="row">
+                                <div class="col-md-4" v-for="term in taxonomy.terms" :key="term.slug">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h3>{{ term.name }}</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="card mb-3">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Shopping <span class="text-muted">(highlight)</span></h4>
+                                                    <p class="text-muted mb-0"> Priority: Low </p>
+                                                    <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
+                                                    <p class="text-muted mb-0"> Category: Personal </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +118,7 @@ get_header();
                     </div>
                 </div>
 
-                <!-- Server Content -->
+                <!-- Server Content Template-->
                 <div class="row" id="server-content" v-else>
                     <?php
                     $taskStatusTerms = get_terms(array( // Get all terms for task_status taxonomy
