@@ -133,7 +133,11 @@ get_header();
                                             ?>
                                         </p>
                                         <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
-                                        <p class="text-muted mb-0"> Category: Personal </p>
+                                        <p class="text-muted mb-0">
+                                            <?php $categories = wp_get_post_terms($task->ID, 'task_category', ['fields' => 'names']);                                        
+                                            echo 'Category: ' . (!empty($categories) ? esc_html(implode(', ', $categories)) : 'No Category');  
+                                            ?>
+                                        </p>
                                     </div>
                                 </div>
                                 <?php endforeach;?>
