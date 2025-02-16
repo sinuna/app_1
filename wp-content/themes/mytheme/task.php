@@ -123,10 +123,12 @@ get_header();
                             </div>
                             <div class="card-body">
                                 <?php if ( !empty($tasks) ) :?>
-                                <?php foreach( $tasks as $task ) : ?>
+                                <?php foreach( $tasks as $task ) : 
+                                    $is_highlight = get_post_meta($task->ID, '_is_highlight', true) === '1' ? 'highlight' : '';
+                                ?>
                                 <div class="card mb-3">
                                     <div class="card-body">
-                                        <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted">(highlight)</span></h4>
+                                        <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted"><?php echo $is_highlight ? '(highlight)' : ''; ?></span></h4>
                                         <p class="text-muted mb-0">
                                             <?php $priorities = wp_get_post_terms($task->ID, 'task_priority', ['fields' => 'names']);                                        
                                             echo 'Priority: ' . (!empty($priorities) ? esc_html(implode(', ', $priorities)) : 'No Priority');  
