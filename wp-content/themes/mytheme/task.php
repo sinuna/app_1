@@ -122,12 +122,26 @@ get_header();
                                 <h3><?php echo esc_html($term->name); ?></h3>
                             </div>
                             <div class="card-body">
-                                <?php if ( !empty($tasks) ) :?>
-                                <?php foreach( $tasks as $task ) : 
+                                <?php if ( !empty($tasks) ) : ?>
+                                <?php foreach( $tasks as $task ) :
                                     $is_highlight = get_post_meta($task->ID, '_is_highlight', true) === '1' ? 'highlight' : '';
+                                    // Get the task status term
+                                    $task_status = wp_get_post_terms($task->ID, 'task_status');
+                                    $task_status_slug = !empty( $task_status ) ? $task_status[0]->slug : '';
+                
+                                    // Conditionally add task status classes
+                                    $status_class = match($task_status_slug) {
+                                        'to-do' => 'task-todo',
+                                        'progress' => 'task-progress',
+                                        'done' => 'task-done',
+                                        default => '',
+                                    };
+                
+                                    // Combine the classes
+                                    $myclasses = trim("$is_highlight $status_class"); 
                                 ?>
                                 <div class="card mb-3">
-                                    <div class="card-body">
+                                    <div class="card-body <?php echo esc_attr($myclasses); ?>">
                                         <h4 class="card-title"><?php echo esc_html($task->post_title); ?> <span class="text-muted"><?php echo $is_highlight ? '(highlight)' : ''; ?></span></h4>
                                         <p class="text-muted mb-0">
                                             <?php $priorities = wp_get_post_terms($task->ID, 'task_priority', ['fields' => 'names']);                                        
