@@ -132,7 +132,9 @@ get_header();
                                             echo 'Priority: ' . (!empty($priorities) ? esc_html(implode(', ', $priorities)) : 'No Priority');  
                                             ?>
                                         </p>
-                                        <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
+                                        <p class="text-muted mb-0">
+                                            <?php echo 'Deadline: ' . (esc_html(get_post_meta($task->ID, '_deadline', true)) ?: 'No deadline'); ?>
+                                        </p>
                                         <p class="text-muted mb-0">
                                             <?php $categories = wp_get_post_terms($task->ID, 'task_category', ['fields' => 'names']);                                        
                                             echo 'Category: ' . (!empty($categories) ? esc_html(implode(', ', $categories)) : 'No Category');  
