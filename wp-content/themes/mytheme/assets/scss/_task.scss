@@ -34,9 +34,9 @@
     }
     
     .highlight,
-    .highlight.mytodo,
-    .highlight.myprogress,
-    .highlight.mydone {
+    .highlight.task-todo,
+    .highlight.task-progress,
+    .highlight.task-done {
         background-color: var(--bg-light-blue);
         border-left: 6px solid var(--blue-color);
     }

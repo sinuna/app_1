@@ -45,9 +45,9 @@
   padding: 20px;
 }
 #task-app .highlight,
-#task-app .highlight.mytodo,
-#task-app .highlight.myprogress,
-#task-app .highlight.mydone {
+#task-app .highlight.task-todo,
+#task-app .highlight.task-progress,
+#task-app .highlight.task-done {
   background-color: var(--bg-light-blue);
   border-left: 6px solid var(--blue-color);
 }
