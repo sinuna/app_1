@@ -110,9 +110,23 @@ get_header();
                                 'terms' => $term->term_id
                             )
                         ),
-                        'order_by' => array(
-                            'date' => 'ASC'
-                        )
+                        'meta_query'     => array(
+                        'relation' => 'OR',
+                        array(
+                            'key'     => '_deadline',
+                            'compare' => 'EXISTS',
+                        ),
+                        array(
+                            'key'     => '_deadline',
+                            'compare' => 'NOT EXISTS',
+                        ),
+                    ),
+                    'orderby'        => array(
+                        'meta_value_num' => 'DESC', // Sort by highlight first
+                        'meta_value'     => 'ASC',  // Then by deadline (earliest first)
+                        'date'           => 'ASC',  // Then by post date
+                    ),
+                    'meta_key' => '_is_highlight',
                     );
                     $tasks = get_posts($args);
                     ?>
@@ -136,7 +150,7 @@ get_header();
                                         'done' => 'task-done',
                                         default => '',
                                     };
-                
+
                                     // Combine the classes
                                     $myclasses = trim("$is_highlight $status_class"); 
                                 ?>
