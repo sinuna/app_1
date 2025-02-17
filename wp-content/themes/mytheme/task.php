@@ -106,10 +106,10 @@ get_header();
                                                 <div v-for="task in taskPosts" :key="task.id">
                                                     <div class="card mb-3">
                                                         <div class="card-body">
-                                                            <h4 class="card-title">{{ task.title.rendered }} <span class="text-muted">(highlight)</span></h4>
-                                                            <p class="text-muted mb-0"> Priority: Low </p>
-                                                            <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
-                                                            <p class="text-muted mb-0"> Category: Personal </p>
+                                                            <h4 class="card-title">{{ task.title.rendered || 'No title' }} <span class="text-muted" v-if="task.my_meta.highlight_post === '1'">(highlight)</span></h4>
+                                                            <p class="text-muted mb-0"> Priority: {{ task.my_taxonomies.task_priority?.[0]?.term_name ?? 'No Priority' }} </p>
+                                                            <p class="text-muted mb-0"> Deadline: {{ task.my_meta.deadline || 'No deadline' }} </p>
+                                                            <p class="text-muted mb-0"> Category: {{ task.my_taxonomies.task_category?.[0]?.term_name ?? 'No Category' }} </p>
                                                         </div>
                                                     </div>
                                                 </div>
