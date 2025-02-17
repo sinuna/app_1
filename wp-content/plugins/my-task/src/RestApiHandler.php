@@ -80,6 +80,11 @@ class RestApiHandler {
                 $tasks[] = array(
                     'id' => $task_id,
                     'title' => get_the_title(),
+                    'my_meta'      => array(
+                        'deadline' => get_post_meta($task_id, '_deadline', true),
+                        'headline_post' => get_post_meta($task_id, '_is_headline', true),
+                    ),
+                    'my_taxonomies' => $this->get_task_taxonomies_terms($task_id)
                 );
             }
             wp_reset_postdata();
@@ -87,6 +92,29 @@ class RestApiHandler {
         }
     
         return new WP_REST_Response(['message' => 'No tasks found'], 404);
+    }
+
+    public function get_task_taxonomies_terms( $task_id ) {
+        $taxonomies = get_object_taxonomies('task');
+        $my_taxonomies = [];
+    
+        foreach( $taxonomies as $taxonomy ) {
+            $terms = wp_get_post_terms($task_id, $taxonomy);
+            
+            if ( !is_wp_error($terms) && !empty($terms) ) {
+                foreach( $terms as $term ) {
+                    $my_taxonomies[$taxonomy][] = [
+                        'term_id'   => $term->term_id,
+                        'term_name' => $term->name,
+                        'term_slug' => $term->slug,
+                    ];
+                }
+            } else {
+                $my_taxonomies[$taxonomy] = []; // Ensure empty taxonomy keys exist
+            }
+        }
+    
+        return $my_taxonomies;
     }
 
     public function expose_task_in_restapi() {
