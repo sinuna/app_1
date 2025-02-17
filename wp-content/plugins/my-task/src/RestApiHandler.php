@@ -29,6 +29,11 @@ class RestApiHandler {
                 ),
             ),
         ));
+
+        register_rest_route('custom/v1', '/task', [
+            'methods' => 'GET',
+            'callback' => array($this, 'get_all_tasks')
+        ]);
     }
 
     public function get_task_taxonomy_terms( $data ) {
@@ -57,6 +62,31 @@ class RestApiHandler {
             );
         }, $terms);
         return new WP_REST_Response($formatted_terms, 200);
+    }
+
+    public function get_all_tasks(WP_REST_Request $request) {
+        $args = [
+            'post_type'      => 'task',
+            'posts_per_page' => -1,
+        ];
+    
+        $query = new \WP_Query($args);
+        $tasks = [];
+    
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $task_id = get_the_ID();
+                $tasks[] = array(
+                    'id' => $task_id,
+                    'title' => get_the_title(),
+                );
+            }
+            wp_reset_postdata();
+            return new WP_REST_Response($tasks, 200);
+        }
+    
+        return new WP_REST_Response(['message' => 'No tasks found'], 404);
     }
 
     public function expose_task_in_restapi() {
