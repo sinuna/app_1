@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 isClient: true,
                 restUrl: ajax_object.rest_url,
                 allTaxonomies: [],
+                taskPosts: [],
             };
         },
         mounted() {
             this.fetchAllTaxonomies();
+            this.fetchTaskPost();
         },
         methods: {
             fetchTaxonomyTerms( taxonomy ) {
@@ -43,7 +45,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 taxonomies.forEach( taxonomy => {
                     this.fetchTaxonomyTerms(taxonomy);// Fetch terms for each taxonomy
                 });
-            }
+            },
+            fetchTaskPost() {
+                const taskUrl = `${this.restUrl}wp/v2/task`;
+                $.ajax({
+                    url: taskUrl,
+                    method: 'GET',
+                    dataType: 'json', // Ensures response is parsed as JSON
+                    success: (res) => {
+                        this.taskPosts = res;
+                        console.log('All Tasks', this.taskPosts);
+                    },
+                    error: (error) => {
+                        console.error('Error fetching task data:', error);
+                    },
+                });
+            },
         }
     });
 

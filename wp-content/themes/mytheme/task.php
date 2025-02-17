@@ -102,12 +102,16 @@ get_header();
                                             <h3>{{ term.name }}</h3>
                                         </div>
                                         <div class="card-body">
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <h4 class="card-title">Shopping <span class="text-muted">(highlight)</span></h4>
-                                                    <p class="text-muted mb-0"> Priority: Low </p>
-                                                    <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
-                                                    <p class="text-muted mb-0"> Category: Personal </p>
+                                            <div v-if="taskPosts.length > 0">
+                                                <div v-for="task in taskPosts" :key="task.id">
+                                                    <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">{{ task.title.rendered }} <span class="text-muted">(highlight)</span></h4>
+                                                            <p class="text-muted mb-0"> Priority: Low </p>
+                                                            <p class="text-muted mb-0"> Deadline: 2025-07-23 </p>
+                                                            <p class="text-muted mb-0"> Category: Personal </p>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
