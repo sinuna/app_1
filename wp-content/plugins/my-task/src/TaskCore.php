@@ -5,6 +5,7 @@ namespace MyTask;
 use MyTask\TaskPostType;
 use MyTask\TaxonomyHandler;
 use MyTask\MetaBoxHandler;
+use MyTask\RestApiHandler;
 
 class TaskCore {
     public function __construct() {
@@ -16,5 +17,6 @@ class TaskCore {
         new TaskPostType();
         new TaxonomyHandler();
         new MetaBoxHandler();
+        new RestApiHandler();
     }
 }

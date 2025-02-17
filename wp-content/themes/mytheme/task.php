@@ -5,7 +5,7 @@ Template Name: Task Page
 
 get_header();
 ?>
-<main id="task-app" role="main" data-v-app="">
+<main id="" role="main" data-v-app="">
     <div class="container my-4">
         <div class="row">
             <div class="col-lg-3 col-md-12">
@@ -89,8 +89,41 @@ get_header();
                     </form>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-12">
-                <div class="row" id="server-content">
+            <div class="col-lg-9 col-md-12" id="task-app">
+                
+                <!-- Client Content Template -->
+                <div class="row" id="client-content" v-if="isClient">
+                    <div v-if="allTaxonomies.length > 0" v-for="taxonomy in allTaxonomies" :key="taxonomy.name">
+                        <div v-if="taxonomy.name === 'task_status'">
+                            <div class="row">
+                                <div class="col-md-4" v-for="term in taxonomy.terms" :key="term.slug">
+                                    <div class="card">
+                                        <div class="card-header bg-primary text-white text-center">
+                                            <h3>{{ term.name }}</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div v-if="taskPosts.length > 0">
+                                                <div v-for="task in taskPosts" :key="task.id">
+                                                    <div class="card mb-3">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">{{ task.title.rendered || 'No title' }} <span class="text-muted" v-if="task.my_meta.highlight_post === '1'">(highlight)</span></h4>
+                                                            <p class="text-muted mb-0"> Priority: {{ task.my_taxonomies.task_priority?.[0]?.term_name ?? 'No Priority' }} </p>
+                                                            <p class="text-muted mb-0"> Deadline: {{ task.my_meta.deadline || 'No deadline' }} </p>
+                                                            <p class="text-muted mb-0"> Category: {{ task.my_taxonomies.task_category?.[0]?.term_name ?? 'No Category' }} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Server Content Template-->
+                <div class="row" id="server-content" v-else>
                     <?php
                     $taskStatusTerms = get_terms(array( // Get all terms for task_status taxonomy
                         'taxonomy' => 'task_status',
