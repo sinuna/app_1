@@ -61,30 +61,29 @@ class RestApiHandler {
 
     public function expose_task_in_restapi() {
         register_rest_field('task', 'my_taxonomies', [
-            'get_callback' => function( $object ) {
-                $taxonomies = get_object_taxonomies('task');
-                $result = [];
-
-                foreach( $taxonomies as $taxonomy ) {
-                    $terms = wp_get_post_terms($object['id'], $taxonomy);
-
-                    if ( !is_wp_error($terms) && !empty($terms) ) {
-                        $result[$taxonomy] = [];
-                        
-                        foreach ($terms as $term) {
-                            $result[$taxonomy][] = [
-                                'term_id' => $term->term_id,
-                                'term_name' => $term->name,
-                                'term_slug' => $term->slug
-                            ];
-                        }
-                    } else {
-                        $result[$taxonomy] = [];
-                    }
-                }
-
-                return $result;
-            }
+            'get_callback' => array($this, 'display_task_taxonomy_term_in_restapi')
         ]);
+    }
+
+    public function display_task_taxonomy_term_in_restapi( $object ) {
+        $taxonomies = get_object_taxonomies('task');
+        $result = [];
+
+        foreach( $taxonomies as $taxonomy ) {
+            $terms = wp_get_post_terms($object['id'], $taxonomy);
+            $result[$taxonomy] = [];
+
+            if ( !is_wp_error($terms) && !empty($terms) ) {
+                foreach ($terms as $term) {
+                    $result[$taxonomy][] = [
+                        'term_id' => $term->term_id,
+                        'term_name' => $term->name,
+                        'term_slug' => $term->slug
+                    ];
+                }
+            }
+        }
+
+        return $result;
     }
 }
