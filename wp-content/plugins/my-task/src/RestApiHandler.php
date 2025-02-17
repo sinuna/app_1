@@ -63,6 +63,10 @@ class RestApiHandler {
         register_rest_field('task', 'my_taxonomies', [
             'get_callback' => array($this, 'display_task_taxonomy_term_in_restapi')
         ]);
+
+        register_rest_field('task', 'my_meta', [
+            'get_callback' => array($this, 'display_task_meta_in_restapi')
+        ]);
     }
 
     public function display_task_taxonomy_term_in_restapi( $object ) {
@@ -85,5 +89,15 @@ class RestApiHandler {
         }
 
         return $result;
+    }
+
+    public function display_task_meta_in_restapi( $object ) {
+        $deadline = get_post_meta( $object['id'], '_deadline', true);
+        $is_highlight = get_post_meta( $object['id'], '_is_highlight', true);
+
+        return array(
+            'deadline' => !empty($deadline) ? $deadline : null,
+            'highlight_post' => !empty($is_highlight) ? $is_highlight : null,
+        );
     }
 }
