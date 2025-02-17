@@ -9,6 +9,7 @@ use WP_REST_Response;
 class RestApiHandler {
     public function __construct() {
         add_action('rest_api_init', array( $this, 'register_custom_task_route_in_rest_api'));
+        add_action('rest_api_init', array( $this, 'expose_task_in_restapi'));
     }
 
     public function register_custom_task_route_in_rest_api() {
@@ -56,5 +57,34 @@ class RestApiHandler {
             );
         }, $terms);
         return new WP_REST_Response($formatted_terms, 200);
+    }
+
+    public function expose_task_in_restapi() {
+        register_rest_field('task', 'my_taxonomies', [
+            'get_callback' => function( $object ) {
+                $taxonomies = get_object_taxonomies('task');
+                $result = [];
+
+                foreach( $taxonomies as $taxonomy ) {
+                    $terms = wp_get_post_terms($object['id'], $taxonomy);
+
+                    if ( !is_wp_error($terms) && !empty($terms) ) {
+                        $result[$taxonomy] = [];
+                        
+                        foreach ($terms as $term) {
+                            $result[$taxonomy][] = [
+                                'term_id' => $term->term_id,
+                                'term_name' => $term->name,
+                                'term_slug' => $term->slug
+                            ];
+                        }
+                    } else {
+                        $result[$taxonomy] = [];
+                    }
+                }
+
+                return $result;
+            }
+        ]);
     }
 }
