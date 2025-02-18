@@ -32,7 +32,7 @@ class RestApiHandler {
 
         register_rest_route('custom/v1', '/task', array(
             'methods' => 'GET',
-            'callback' => array( $this, 'get_all_tasks' ),
+            'callback' => array( $this, 'get_filtered_tasks' ),
         ));
     }
 
@@ -64,10 +64,11 @@ class RestApiHandler {
         return new WP_REST_Response($formatted_terms, 200);
     }
 
-    public function get_all_tasks( WP_REST_Request $request ) {
+    public function get_filtered_tasks( WP_REST_Request $request ) { //to return filtered tasks
         $args = array(
             'post_type' => 'task',
             'posts_per_page' => -1,
+            'tax_query' => $this->build_tax_query( $request ), // Add tax_query to filter tasks
         );
 
         $query = new \WP_Query( $args );
@@ -120,6 +121,26 @@ class RestApiHandler {
             'deadline' => get_post_meta( $task_id, '_deadline', true ) ?: null,
             'highlight_post' => get_post_meta( $task_id, '_is_highlight', true ) ?: null,
         );
+    }
+
+    public function build_tax_query( WP_REST_Request $request ) {
+        $taxonomies = get_object_taxonomies('task');
+        $tax_query = [];
+
+        foreach ( $taxonomies as $taxonomy ) {
+            $term = $request->get_param($taxonomy);
+
+            if (!empty($term)) {
+                $tax_query[] = [
+                    'taxonomy' => $taxonomy,
+                    'field'    => 'slug',
+                    'terms'    => $term, // Single term,
+                    'operator' => 'IN',
+                ];
+            }
+        }
+
+        return $tax_query;
     }
 
     // exposing custom taxonomies and meta in default restapi i.e wp/v2/task
