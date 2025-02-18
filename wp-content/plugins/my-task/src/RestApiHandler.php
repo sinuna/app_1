@@ -128,13 +128,13 @@ class RestApiHandler {
         $tax_query = [];
 
         foreach ( $taxonomies as $taxonomy ) {
-            $term = $request->get_param($taxonomy);
+            $terms = $request->get_param($taxonomy);
 
-            if (!empty($term)) {
+            if (!empty($terms)) {
                 $tax_query[] = [
                     'taxonomy' => $taxonomy,
                     'field'    => 'slug',
-                    'terms'    => $term, // Single term,
+                    'terms'    => explode(',', $terms), // Multiple terms
                     'operator' => 'IN',
                 ];
             }
