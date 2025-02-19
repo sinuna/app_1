@@ -52,7 +52,7 @@ get_header();
                     <form style="border: 1px solid rgb(204, 204, 204); border-radius: 10px; padding: 20px;">
                         <h2>Filter</h2>
                             <div class="mb-4" v-if="allTaxonomies.length > 0" v-for="taxonomy in allTaxonomies" :key="taxonomy.name">
-                            <h5>{{ taxonomy.name }}</h5>
+                            <h5>{{ formatTaxonomyName( taxonomy.name ) }}</h5>
                             <div class="d-flex gap-2 align-items-center" v-for="term in taxonomy.terms" :key="term.slug">
                                 <input type="checkbox"  :id="term.slug" :value="term.slug" aria-labelledby="task-filter" value="work">
                                 <label :for="term.slug">{{ term.name }}</label>
