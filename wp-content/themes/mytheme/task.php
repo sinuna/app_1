@@ -105,7 +105,7 @@ get_header();
                                             <div v-if="tasksByStatus[term.name] && tasksByStatus[term.name].length > 0">
                                                 <div v-for="task in tasksByStatus[term.name]" :key="task.id">
                                                     <div class="card mb-3">
-                                                        <div class="card-body">
+                                                        <div class="card-body" :class="getTaskClasses(task)">
                                                             <h4 class="card-title">{{ task.title.rendered || 'No title' }} <span class="text-muted" v-if="task.my_meta.highlight_post === '1'">(highlight)</span></h4>
                                                             <p class="text-muted mb-0"> Priority: {{ task.my_taxonomies.task_priority?.[0]?.term_name ?? 'No Priority' }} </p>
                                                             <p class="text-muted mb-0"> Deadline: {{ task.my_meta.deadline || 'No deadline' }} </p>

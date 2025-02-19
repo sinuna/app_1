@@ -80,7 +80,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             
                 console.log('Grouped Tasks by Status:', this.tasksByStatus);
-            }            
+            },
+            getTaskClasses(task) {
+                const classes = [];
+                if (task.my_meta.highlight_post === '1') classes.push('highlight');
+    
+                const statusClasses = {
+                    'to-do': 'task-todo',
+                    'progress': 'task-progress',
+                    'done': 'task-done'
+                };
+            
+                const taskStatus = task.my_taxonomies.task_status?.[0]?.term_slug;
+                if (statusClasses[taskStatus]) classes.push(statusClasses[taskStatus]);
+            
+                return classes.join(' ');
+            },
         }
     });
 
