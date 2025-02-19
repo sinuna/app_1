@@ -96,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
             
                 return classes.join(' ');
             },
+            formatTaxonomyName(name) {
+                return name.replace('_', ' ').replace(/\b\w/g, char => char.toUpperCase());
+            }
         }
     });
 

@@ -5,7 +5,7 @@ Template Name: Task Page
 
 get_header();
 ?>
-<main id="" role="main" data-v-app="">
+<main id="task-app" role="main" data-v-app="">
     <div class="container my-4">
         <div class="row">
             <div class="col-lg-3 col-md-12">
@@ -51,45 +51,17 @@ get_header();
                 <div class="filter mb-4" aria-labelledby="filter-heading">
                     <form style="border: 1px solid rgb(204, 204, 204); border-radius: 10px; padding: 20px;">
                         <h2>Filter</h2>
-                        <div class="mb-4">
-                            <h5>Task Category</h5>
-                            <div class="d-flex gap-2 align-items-center">
-                                <input type="checkbox" id="work" aria-labelledby="task-filter" value="work">
-                                <label for="work">Work</label>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <input type="checkbox" id="personal" aria-labelledby="task-filter" value="personal">
-                                <label for="personal">Personal</label>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <h5>Task Priority</h5>
-                            <div class="d-flex gap-2 align-items-center"><input type="checkbox" id="low" aria-labelledby="task-filter" value="low">
-                                <label for="low">Low</label>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center"><input type="checkbox" id="medium" aria-labelledby="task-filter" value="medium">
-                                <label for="medium">Medium</label>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center"><input type="checkbox" id="high" aria-labelledby="task-filter" value="high">
-                                <label for="high">High</label>
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <h5>Task Status</h5>
-                            <div class="d-flex gap-2 align-items-center">
-                                <input type="checkbox" id="to-do" aria-labelledby="task-filter" value="to-do"><label for="to-do">To do</label>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <input type="checkbox" id="progress"aria-labelledby="task-filter" value="progress"><labelfor="progress">Progress</label>
-                            </div>
-                            <div class="d-flex gap-2 align-items-center">
-                                <input type="checkbox" id="done" aria-labelledby="task-filter" value="done"><label for="done">Done</label>
+                            <div class="mb-4" v-if="allTaxonomies.length > 0" v-for="taxonomy in allTaxonomies" :key="taxonomy.name">
+                            <h5>{{ formatTaxonomyName( taxonomy.name ) }}</h5>
+                            <div class="d-flex gap-2 align-items-center" v-for="term in taxonomy.terms" :key="term.slug">
+                                <input type="checkbox"  :id="term.slug" :value="term.slug" aria-labelledby="task-filter" value="work">
+                                <label :for="term.slug">{{ term.name }}</label>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="col-lg-9 col-md-12" id="task-app">
+            <div class="col-lg-9 col-md-12" id="task-app111">
                 
                 <!-- Client Content Template -->
                 <div class="row" id="client-content" v-if="isClient">
