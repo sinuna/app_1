@@ -102,8 +102,8 @@ get_header();
                                             <h3>{{ term.name }}</h3>
                                         </div>
                                         <div class="card-body">
-                                            <div v-if="taskPosts.length > 0">
-                                                <div v-for="task in taskPosts" :key="task.id">
+                                            <div v-if="tasksByStatus[term.name] && tasksByStatus[term.name].length > 0">
+                                                <div v-for="task in tasksByStatus[term.name]" :key="task.id">
                                                     <div class="card mb-3">
                                                         <div class="card-body">
                                                             <h4 class="card-title">{{ task.title.rendered || 'No title' }} <span class="text-muted" v-if="task.my_meta.highlight_post === '1'">(highlight)</span></h4>
