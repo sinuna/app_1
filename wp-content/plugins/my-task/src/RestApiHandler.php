@@ -140,6 +140,10 @@ class RestApiHandler {
             }
         }
 
+        if (count($tax_query) > 1) {
+            $tax_query = array_merge([['relation' => 'AND']], $tax_query);
+        }
+
         return $tax_query;
     }
 
