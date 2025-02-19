@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 restUrl: ajax_object.rest_url,
                 allTaxonomies: [],
                 taskPosts: [],
+                tasksByStatus: {}, // Object to store tasks grouped by status
             };
         },
         mounted() {
@@ -55,11 +56,45 @@ document.addEventListener('DOMContentLoaded', function () {
                     success: (res) => {
                         this.taskPosts = res;
                         console.log('All Tasks', this.taskPosts);
+                        this.groupTasksByStatus();
                     },
                     error: (error) => {
                         console.error('Error fetching task data:', error);
                     },
                 });
+            },
+            groupTasksByStatus() {
+                this.tasksByStatus = {}; // Initialize the object to store tasks grouped by status
+
+                this.taskPosts.forEach((task) => {
+                    const status = task.my_taxonomies?.task_status?.[0]?.term_name;
+
+                    if ( status ) {
+                        if ( !this.tasksByStatus[status] ) {
+                            this.tasksByStatus[status] = [];
+                        }
+                    }
+
+                    this.tasksByStatus[status].push(task);
+
+                });
+            
+                console.log('Grouped Tasks by Status:', this.tasksByStatus);
+            },
+            getTaskClasses(task) {
+                const classes = [];
+                if (task.my_meta.highlight_post === '1') classes.push('highlight');
+    
+                const statusClasses = {
+                    'to-do': 'task-todo',
+                    'progress': 'task-progress',
+                    'done': 'task-done'
+                };
+            
+                const taskStatus = task.my_taxonomies.task_status?.[0]?.term_slug;
+                if (statusClasses[taskStatus]) classes.push(statusClasses[taskStatus]);
+            
+                return classes.join(' ');
             },
         }
     });
