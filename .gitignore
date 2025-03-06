@@ -45,6 +45,11 @@ wp-content/*
 # Include specific WordPress sample config file
 !wp-config-sample.php
 
+# Ignore vendor directory in my task plugin and theme
+wp-content/plugins/my-task/vendor/
+wp-content/themes/mytheme/vendor
+
+
 # Ignore miscellaneous system files
 .*
 ~*
